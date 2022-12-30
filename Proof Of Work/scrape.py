@@ -22,15 +22,20 @@ chrome_service = Service(chrome_path)
 
 # pass the defined options and service objects to initialize the web driver 
 driver = Chrome(options=options, service=chrome_service) 
-driver.implicitly_wait(5)
+
+driver.maximize_window() # For maximizing window
+driver.implicitly_wait(10)
 
 
-url = "file:///Users/josh/Desktop/Proof_Of_Work/RNG.html" 
+url = "file:///Users/josh/Desktop/Proof%20Of%20Work/RNG.html"
 driver.get(url) 
 
 # wait a certain amount of time, by then JavaScript code will be running
-time.sleep(5)
+time.sleep(3)
 
 content = driver.find_element(By.CSS_SELECTOR, "div[class*='Main'")
-metrics = content.find_elements(By.TAG_NAME, "tr")[1].text
-print(metrics)
+metrics_text = content.find_elements(By.TAG_NAME, "tr")[1].text.split(" ")
+
+metrics = [float(i) for i in metrics_text]
+
+print(metrics) 
