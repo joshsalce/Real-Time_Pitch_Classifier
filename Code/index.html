@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>UCSD Pitch Classifier</title>
+</head>
+<body>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: rgb(255, 255, 255);
+        font-family: sans-serif;
+        text-align: center;
+    }
+
+    h1 {
+        background-color: rgb(24, 43, 73);
+        text-align: center;
+        color: rgb(255,205,0);
+        font-size: 70px;
+        padding: 40px;
+    }
+
+    p {
+        font-size: 32px;
+    }
+
+    p#classifier-on {
+        font-size: 32px;
+    }
+
+    p#paused {
+        font-size: 200px;
+    }
+
+    p#output {
+      font-size: 80px;
+    }
+
+    select.select-menu{
+        background: rgb(24, 43, 73);
+        color: #fff;
+        padding-left: 5px;
+        padding-top: 5px;
+        padding-bottom: 9px;
+        font-size: 22px;
+    }
+    select.select-menu option{
+        color: #000;
+        padding: 20 5px;
+    }
+
+    button {
+        background-color: rgb(0,98,155);
+        border-color: rgb(0,98,155);
+        border-radius: 0;
+        text-decoration: none;
+        margin-top: 10px;
+        color: #fff;
+        padding: 8px 18px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+
+</style>
+
+<h1>UCSD Baseball 2023 Pitch Classifier</h1>
+
+<p>Select a Pitcher From the Dropdown Menu</p>
+
+<div style="display:inline-block;">
+    <select id = "pitcher" class = "select-menu">
+        <option></option>
+        <option value="Zachary Ernisse">Zachary Ernisse</option>   
+        <option value="Ryan Forcucci">Ryan Forcucci</option>
+        <option value="Niccolas Gregson">Niccolas Gregson</option>    
+        <option value="Michael Mitchell">Michael Mitchell</option>
+        <option value="Anthony Eyanson">Anthony Eyanson</option>
+        <option value="Izaak Martinez">Izaak Martinez</option>
+        <option value="Ryan Rissas">Ryan Rissas</option>
+        <option value="Donovan Chriss">Donovan Chriss</option>
+        <option value="Spencer Seid">Spencer Seid</option>
+        <option value="Seth Sumner">Seth Sumner</option> 
+        <option value="Aren Alvarez">Aren Alvarez</option>
+        <option value="Joseph Soberon">Joseph Soberon</option>
+        <option value="Ethan Holt">Ethan Holt</option>
+        <option value="Sam Hasegawa">Sam Hasegawa</option>
+        <option value="Chris Gilmartin">Chris Gilmartin</option> 
+        <option value="Cole Dale">Cole Dale</option>
+        <option value="Nolan Mccracken">Nolan Mccracken</option>
+        <option value="Matthew Dalquist">Matthew Dalquist</option>
+        <option value="Xavier Franco">Xavier Franco</option>    
+        <option value="Ryan Farmer">Ryan Farmer</option>
+        <option value="Joel Tornero">Joel Tornero</option>
+    </select>
+
+    <button id = "input">Start</button>
+    <button id = "pause">Pause</button>
+</div>
+
+
+<div>
+    <p id = "classifier-on"></p>
+    <p id = "output"></p>
+</div>
+
+
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  const socket = io() 
+  /*
+  On click of "Start" button, takes value of select dropdown menu and
+  emits message of pitcher name to Python Client, model built on emiited message
+  */
+  $('#input').click(function(){
+      socket.connect()
+      const text = $('#pitcher').val();
+      console.log(text)
+
+      // Writes HTML signaling classifier is created and predicting in real-time
+      $("#classifier-on").html(
+          "<p id='classifier-on'>"+"Classifier On For: " + text +"</p>"
+      )
+      
+      socket.emit('message', text);
+  });
+
+  // Clears output and writes "PAUSED" while socketio server is turned off
+  $('#pause').click(function(){
+      const text = "PAUSED"
+      $("#classifier-on").html(
+          "<p id = 'paused'>"+ text +"</p>"
+      )
+      $("#output").html(
+          '<p></p>'
+      )
+
+      socket.emit('pause', text);
+  });
+  
+  // For each prediction made on incoming data, message taken from Python client and written to front-end
+  socket.on('message', data => {
+      $("#output").html(
+          '<p id="output">'+ data +'</p>'
+      )
+  })
+
+</script>
+</html>
