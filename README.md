@@ -13,9 +13,9 @@ This is a locally run web-application that can classify pitches in real-time bas
 
 | Component | Description |
 |-------|---------------------------------------------------------------------------------------------------------------------------------------------------|
-| [File Schematic](https://github.com/joshsalce/Real-Time_Pitch_Classifier/blob/main/File_Schematic.pdf)| | 
-| [Code](https://github.com/joshsalce/Real-Time_Pitch_Classifier/tree/main/Code) |  |
-| [Miscellaneous](https://github.com/joshsalce/Real-Time_Pitch_Classifier/tree/main/Misc.) | |
+| [File Schematic](https://github.com/joshsalce/Real-Time_Pitch_Classifier/blob/main/File_Schematic.pdf)| Layout of file organization and relationships | 
+| [Code](https://github.com/joshsalce/Real-Time_Pitch_Classifier/tree/main/Code) | Code section including all coding files except for datasets, node, venv, and Python server files |
+| [Miscellaneous](https://github.com/joshsalce/Real-Time_Pitch_Classifier/tree/main/Misc.) | Miscellaneous section including diagrams documenting thought process of project, proof of concepts, and test scripts|
 
 
 ## Directions
