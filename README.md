@@ -11,11 +11,11 @@ This is a locally run web-application that can classify pitches in real-time bas
 
 ## Table of Contents
 
-| Component | Link |
+| Component | Description |
 |-------|---------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1     | [File Schematic](https://github.com/joshsalce/Real-Time_Pitch_Classifier/blob/main/File_Schematic.pdf)| 
-| 2     | [DigitalClock](https://github.com/larymak/Python-project-Scripts/tree/main/TIME%20SCRIPTS/DigitalClock) |
-| 3     | [Insta Spam Bot](https://github.com/larymak/Python-project-Scripts/tree/main/BOTS/InstaSpamBot)|
+| [File Schematic](https://github.com/joshsalce/Real-Time_Pitch_Classifier/blob/main/File_Schematic.pdf)| | 
+| [Code](https://github.com/joshsalce/Real-Time_Pitch_Classifier/tree/main/Code) |  |
+| [Miscellaneous](https://github.com/joshsalce/Real-Time_Pitch_Classifier/tree/main/Misc.) | |
 
 
 ## Directions
