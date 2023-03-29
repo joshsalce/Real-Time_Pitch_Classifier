@@ -1,8 +1,12 @@
-v1: choose random number from length of training set, store in a 2D array that is predicted on, returning a single class (e.g. array([1])). Applies to prototype classifier that takes no new instances
+v1: choose random number from length of training set, store in a 2D array that is predicted on, returning a single class (e.g. array([1])). 
+Applies to prototype classifier that takes no new instances
   
   Code (Taken from model of MLB pitch metrics):  
     rand = np.random.choice(len(X_train))
     KNN.predict([X_train[rand]])
     
-v2:  Scrape interface for pitch metrics, store in a 2D array [[x1, x2, x3, x4, ..., x^n]] that is predicted on as a new instance that is not part of the training set. Depending on the class that is predicted, a specific name for a pitch will be returned via series of if-else statements
+v2:  Scrape interface for pitch metrics, store in a 2D array [[x1, x2, x3, x4, ..., x^n]] 
+that is predicted on as a new instance that is not part of the training set. 
+
+Depending on the class that is predicted, a specific name for a pitch will be returned via series of if-else statements
 
