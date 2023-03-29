@@ -4,6 +4,7 @@
 This is a locally run web-application that can classify pitches in real-time based on which pitcher is in a game. Using the socket.io package in JavaScript, a pitcher can be selected from a dropdown-menu. After pressing "Start," an sklearn model is built on the pitcher's Yakkertech pitch data, and a  Python connection to the Yakkertech cameras is established using the socketIO-client pacakge that is continuously parsed to read and predict on incoming pitch data. Each prediction is written from a Python localhost client to the front-end HTML page in the style that an MLB stadium shows pitch data. "Pausing" the application will termiante the socket.io server, with the Python client still running. A working demo of this applciation can be found [here.](https://youtu.be/TTDHuMp5X2I) 
 
 ### Motivation
+The spark for this project came during my first days interning with the UCSD Baseball Team. While tagging scrimmages initally, I found myself making some errors based on unfamiliarity with each pitcher's unique pitch characteristics (i.e. differences in spin rates for fastballs and sinkers, vertical and horizontal break for LHP curveballs and sliders). At the same time, I had been introduced to the Python package sklearn in my academic work. My inital project with sklearn came with building a pitch classifier using MLB pitch data, which can be found [here.](https://github.com/joshsalce/Pitch-Classifier-MLB-2022). This project aims to increase my familiarity with sklearn and build a tool that can correct for inital tagging errors.
 
 
 ### Packages and Tech Used
@@ -38,7 +39,4 @@ python3 Client/client.py
 
 ## Credits
 
-
-
-While working with the UCSD Baseball Team for the 2023 season, I initally found 
-A pet project pitch classifier built during my time working for the UCSD baseball team
+Grateful for UCSD President of Baseball Operations Ryan Bobb for granting me access to UCSD pitch data and Yakkertech interface, as well as [Jacob Clark](https://www.linkedin.com/search/results/all/?fetchDeterministicClustersOnly=true&heroEntityKey=urn%3Ali%3Afsd_profile%3AACoAAAOAQXIBsfZfspEOxOsOVB40fxyALB_P_2s&keywords=jacob%20clark&origin=RICH_QUERY_TYPEAHEAD_HISTORY&position=0&searchId=c0553ee4-25b4-4f06-8872-55d0402fce5e&sid=4HI) of Yakkertech for staying in correspondence with me throughout the duration of this project. None of this would have happened without their help.
