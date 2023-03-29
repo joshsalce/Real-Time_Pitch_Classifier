@@ -1,5 +1,0 @@
-﻿IDEA FOR PITCH CLASSIFIER YAKKERTECH
-
-PROTOTYPE:
-	- build a quick website that random generates 3+ different numbers (horizontal break, vertical break, mph, tilt?, etc.?) every 20 seconds
-	- build a python program that hooks to that website, generate and store a set of new numbers each time new numbers are generated
