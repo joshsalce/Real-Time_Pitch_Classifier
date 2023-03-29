@@ -31,8 +31,10 @@ nodemon server.js
 ```
 python3 Client/client.py
 ```
-2. 
-To change to a new pitcher, reload the application and restart the Python client file from the terminal.
+3. Load in application via url http://127.0.0.1:3000/
+4. Select a pitcher via the dropdown menu, and press 'Start' button
+5. To pause classification, click the 'Pause' button. The HTML page will stop writing incoming pitch data.
+6. To change to a new pitcher, reload the application and restart the Python client file from the terminal. To kill the Python client, press control+c and re-enter the client command in Step 2
 
 ## Credits
 
