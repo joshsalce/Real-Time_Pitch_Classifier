@@ -23,6 +23,15 @@ This is a locally run web-application that can classify pitches in real-time bas
 
 
 ## Directions
+1. Install all necessary packages via terminal commands.
+2. cd to directory of classifier project, and initialize a split terminal, running the following functions separately in VSCode:
+```
+nodemon server.js
+```
+```
+python3 Client/client.py
+```
+2. 
 To change to a new pitcher, reload the application and restart the Python client file from the terminal.
 
 ## Credits
