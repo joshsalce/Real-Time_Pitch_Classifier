@@ -1,7 +1,7 @@
 # UCSD Baseball 2023 Pitch Classifier
 
 ## Description
-This is a locally run web-application that can classify pitches in real-time based on which pitcher is in a game. Using the socket.io package in JavaScript, a pitcher can be selected from a dropdown-menu. After pressing "Start," an sklearn model is built on the pitcher's Yakkertech pitch data, and a  Python connection to the Yakkertech cameras is established using the socketIO-client pacakge that is continuously parsed to read and predict on incoming pitch data. Each prediction is written from a Python localhost client to the front-end HTML page in the style that an MLB stadium shows pitch data. "Pausing" the application will termiante the socket.io server, with the Python client still running. 
+This is a locally run web-application that can classify pitches in real-time based on which pitcher is in a game. Using the socket.io package in JavaScript, a pitcher can be selected from a dropdown-menu. After pressing "Start," an sklearn model is built on the pitcher's Yakkertech pitch data, and a  Python connection to the Yakkertech cameras is established using the socketIO-client pacakge that is continuously parsed to read and predict on incoming pitch data. Each prediction is written from a Python localhost client to the front-end HTML page in the style that an MLB stadium shows pitch data. "Pausing" the application will termiante the socket.io server, with the Python client still running. A working demo of this applciation can be found [here.](https://youtu.be/TTDHuMp5X2I) 
 
 ### Motivation
 
@@ -31,7 +31,7 @@ nodemon server.js
 ```
 python3 Client/client.py
 ```
-3. Load in application via url http://127.0.0.1:3000/
+3. Load in application via url 'http://127.0.0.1:3000/'
 4. Select a pitcher via the dropdown menu, and press 'Start' button
 5. To pause classification, click the 'Pause' button. The HTML page will stop writing incoming pitch data.
 6. To change to a new pitcher, reload the application and restart the Python client file from the terminal. To kill the Python client, press control+c and re-enter the client command in Step 2
