@@ -1,13 +1,15 @@
 # UCSD Baseball 2023 Pitch Classifier
 
 ## Description
-This is a locally run web-application that can classify pitches in real-time based on which pitcher is in a game. Using the socket.io package in JavaScript, a pitcher can be selected from a dropdown-menu. After pressing "Start," an sklearn model is built on the pitcher's Yakkertech pitch data, and a  Python connection to the Yakkertech cameras is established using the socketIO-client pacakge that is continuously parsed to read and predict on incoming pitch data. Each prediction is written from a Python localhost client to the front-end HTML page in the style that an MLB stadium shows pitch data.
+This is a locally run web-application that can classify pitches in real-time based on which pitcher is in a game. Using the socket.io package in JavaScript, a pitcher can be selected from a dropdown-menu. After pressing "Start," an sklearn model is built on the pitcher's Yakkertech pitch data, and a  Python connection to the Yakkertech cameras is established using the socketIO-client pacakge that is continuously parsed to read and predict on incoming pitch data. Each prediction is written from a Python localhost client to the front-end HTML page in the style that an MLB stadium shows pitch data. "Pausing" the application will termiante the socket.io server, with the Python client still running. 
 
 ### Motivation
 
 
 ### Packages and Tech Used
-
+- socket.io (version 1.7.4)
+- NodeJS, v12.19.0 
+- [socketIO-client (Python)](https://pypi.org/project/socketIO-client/)
 
 ## Table of Contents
 
@@ -19,7 +21,7 @@ This is a locally run web-application that can classify pitches in real-time bas
 
 
 ## Directions
-
+To change to a new pitcher, reload the application and restart the Python client file from the terminal.
 
 ## Credits
 
