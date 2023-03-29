@@ -13,7 +13,7 @@ This is a locally run web-application that can classify pitches in real-time bas
 
 | SR No | Project                                                                                                                                           | Author                                                      |
 |-------|---------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------|
-| 1     | [File Schematic](https://github.com/joshsalce/Real-Time_Pitch_Classifier/blob/main/File_Schematic.pdf)                                    
+| 1     | [File Schematic](https://github.com/joshsalce/Real-Time_Pitch_Classifier/blob/main/File_Schematic.pdf)
 | [Lary Mak](https://github.com/larymak)                      |
 | 2     | [DigitalClock](https://github.com/larymak/Python-project-Scripts/tree/main/TIME%20SCRIPTS/DigitalClock)                                           | [Logan Ozdyck](https://github.com/ozdyck3)                  |
 | 3     | [Insta Spam Bot](https://github.com/larymak/Python-project-Scripts/tree/main/BOTS/InstaSpamBot)                                                   | [Lary Mak](https://github.com/larymak)                      |
