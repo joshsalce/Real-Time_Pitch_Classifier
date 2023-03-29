@@ -7,9 +7,11 @@ This is a locally run web-application that can classify pitches in real-time bas
 
 
 ### Packages and Tech Used
-- socket.io (version 1.7.4)
+- HTML
+- [socket.io (version 1.7.4)](https://socket.io/)
 - NodeJS, v12.19.0 
 - [socketIO-client (Python)](https://pypi.org/project/socketIO-client/)
+- Python Packages: pandas, numpy, difflib, os, time, [sklearn](https://scikit-learn.org/stable/index.html)
 
 ## Table of Contents
 
