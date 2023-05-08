@@ -5,7 +5,7 @@ import difflib
 
 from sklearn.model_selection import train_test_split, cross_val_predict, cross_val_score
 from sklearn.preprocessing import StandardScaler, LabelEncoder
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score, classification_report, f1_score, recall_score, precision_score
 
 from model_helper import clean, combine_data, fix_typos, filter_pitcher, pair_pitcher_names
@@ -17,7 +17,7 @@ Inputs:
     pitcher_name: Name of pitcher included in socket message
 
 Returns: 
-    RandomForestClassifier() model fit to pitcher's dataset
+    DecisionTreeClassifier() model fit to pitcher's dataset
     LabelEncoder() object that encodes and decodes pitches (i.e. 1 for "Fastball," 2 for "Changeup")
     StandardScaler() object fitted to transform incoming socket data and scale it 
                      appropriately to be used for prediction
@@ -65,7 +65,7 @@ def build_classifier(pitcher_name):
         X_test = scaler.transform(X_test)
 
         # Initialize a model (RandomForest used for prediction accuracy)
-        model = RandomForestClassifier()
+        model = DecisionTreeClassifier()
             
         # Fit model and predict
         model.fit(X_train, y_train)

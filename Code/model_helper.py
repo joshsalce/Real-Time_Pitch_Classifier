@@ -70,7 +70,7 @@ def clean(concatted_csv, pitcher_names):
     # Drops NA values, returns only values of interest, drops NA values again to include no NA values in dataset
     df = df.dropna(subset=['Pitcher','TaggedPitchType','SpinRate'])
     pitch_df = df[['Pitcher', 'TaggedPitchType', 'yt_RelSpeed', 'SpinRate', 'SpinAxis', 'InducedVertBreak', 'HorzBreak']]
-    pitch_df = pitch_df.dropna(axis=1, how='all')
+    pitch_df = pitch_df.dropna(axis=1, how='any')
 
     return pitch_df
 
