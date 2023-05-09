@@ -55,15 +55,13 @@ def build_classifier(pitcher_name):
 
         print(repetoire, '\n')
 
-        # Split into training and test data
+        
+
+        # Split into training and test data, make sure to stratify based on pitch frequency
         X_train, X_test, y_train, y_test = train_test_split(x_df, y_df, test_size = 0.2, random_state=0, stratify = y_df) 
 
-        # Scale training and test data for predictor variables
-        scaler = StandardScaler()  
-
-        X_train = scaler.fit_transform(X_train)  
-        X_test = scaler.transform(X_test)
-
+        #print(X_train.shape, X_test.shape, y_train.shape, y_test.shape)
+        
         # Initialize a model (RandomForest used for prediction accuracy)
         model = DecisionTreeClassifier()
             
@@ -92,4 +90,4 @@ def build_classifier(pitcher_name):
         print('Model (average) accuracy: ', model_accuracy, '\n')
         print('Model Successfully Created.')
 
-        return model, label_encoder, scaler
+        return model, label_encoder

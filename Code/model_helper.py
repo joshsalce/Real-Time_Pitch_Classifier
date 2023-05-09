@@ -67,10 +67,10 @@ def clean(concatted_csv, pitcher_names):
     # After correcting for errors, include only instances with valid name in "Pitcher" column
     df = df[df['Pitcher'].isin(pitcher_names)]
 
-    # Drops NA values, returns only values of interest, drops NA values again to include no NA values in dataset
+    # Drops NA values, returns only values of interest, drops any row with NA to include no NA values in dataset
     df = df.dropna(subset=['Pitcher','TaggedPitchType','SpinRate'])
     pitch_df = df[['Pitcher', 'TaggedPitchType', 'yt_RelSpeed', 'SpinRate', 'SpinAxis', 'InducedVertBreak', 'HorzBreak']]
-    pitch_df = pitch_df.dropna(axis=1, how='any')
+    pitch_df = pitch_df.dropna(axis=0, how='any')
 
     return pitch_df
 

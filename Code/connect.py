@@ -82,18 +82,17 @@ def main(name, local_socket):
                     # Pitch Velocity and Spin Rate returned to show on front-end
                     velo = str(round(data_arr[0][0], 1)) # rounded to 1 decimal point
                     spin_rate = str(int(round(data_arr[0][1],1))) # rounded to 0 decimal points
-                    
-                    # First:  Scale incoming data
-                    scaled_data = value_scaler.transform(data_arr)
+                
 
-                    # Next: Predict value for scaled data using classifier
-                    prediction = knn_classifier.predict(scaled_data)
+                    # First: Predict value for scaled data using classifier
+                    prediction = dt_classifier.predict(data_arr)
 
-                    # Finally: Decode the value of prediction based off encoding
+                    # Next: Decode the value of prediction based off encoding
                     classified_pitch = label_encoder.inverse_transform(prediction)[0]
 
                     # Concatenates all input into a message that is written to front-end with Python client
                     pitch_text = classified_pitch + ' ' + velo + " MPH " + spin_rate + " RPM"
+
                     print(pitch_text)
                     
                     # Imitates Stadium Screens: Show for a brief amount of time, then go blank before the next pitch
@@ -107,9 +106,9 @@ def main(name, local_socket):
         Note: No arguments can be passed to socket function, must be initalized
         as global variables
         '''
-        global knn_classifier, label_encoder, value_scaler
+        global dt_classifier, label_encoder
         # Builds model, LabelEncoder() and StandardScaler() objects returned as well tp use for prediction
-        knn_classifier, label_encoder, value_scaler = build_classifier(name)
+        dt_classifier, label_encoder = build_classifier(name)
 
         # Sensitive Info
         url = os.getenv('URL') 
