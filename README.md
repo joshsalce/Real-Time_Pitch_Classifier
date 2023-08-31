@@ -27,7 +27,7 @@ The spark for this project came during my first days interning with the UCSD Bas
 1. Install all necessary packages via terminal commands.
 2. cd to directory of classifier project, and initialize a split terminal, running the following functions separately in VSCode:
 ```
-nodemon server.js
+npm start
 ```
 ```
 python3 Client/client.py
