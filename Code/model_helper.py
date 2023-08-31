@@ -19,21 +19,14 @@ Inputs:
 Returns: Dataframe with incorrect names corrected for
 '''
 def pair_pitcher_names(df, df_names, pitcher_names):
-
-    '''
-    Loops through the list of Field Names to check for matches 
-    in the current table's field names
-    '''
+    # Loops through all pitcher names, check for matches in the current table's field names
     df_names = [x for x in df_names if str(x) != 'nan']
     
     for i in df_names:
         if i not in pitcher_names:
             closest_match = difflib.get_close_matches(i, pitcher_names) # List of values
 
-            '''
-            Finds the closest match in the list of pitcher names
-            to the pitcher name NOT in the list, replaces it in dataset
-            '''
+            # Finds the closest match to the pitcher name NOT in the list, replaces value in dataset
             if len(closest_match) == 0:
                 pass
             else:
@@ -101,7 +94,6 @@ def combine_data(dir, pitcher_names):
     return cleaned_df
 
 
-
 '''
 Note: This sub-function isused to correct for any typos.
 '''
@@ -111,43 +103,3 @@ def fix_typos(df):
 
     ret_df = ret_df.replace("Fastball ", "Fastball")
     return ret_df
-
-
-'''
-Description: Filters all concatted data to only include 
-             recorded data for a particular pitcher
---------------------------------------------------------------------------------
-Inputs:
-    df: Mass DataFrame of all Pitch Data
-    pitcher_name: Name of selected pitcher (comes from front-end passed through socket)
-
-Returns: DataFrame only including data for one pitcher
-'''
-def filter_pitcher(df, pitcher_name):
-    # Filters out only instances for a partiuclar pitcher, then drops the now unnecessary "Pitcher" column
-    df_pitcher = df[df['Pitcher'] == pitcher_name].drop(['Pitcher'], axis = 1)
-    df_pitcher.reset_index(drop = True, inplace = True)
-
-    '''  
-    Runs through several separate conditions and corrects for any errors in tagging,
-    where the pitch tagged is not in a pitcher's repetoire 
-
-    i.e. Ethan Holt is a sinker-baller, so all Fastballs should be Sinkers
-    '''
-
-    if pitcher_name in ['Donovan Chriss', 'Cole Dale', 'Zachary Ernisse', 'Chris Gilmartin', 'Izaak Martinez', 'Michael Mitchell']:
-        df_pitcher = df_pitcher.replace("Curveball","Slider")
-
-    if pitcher_name in ['Niccolas Gregson','Sam Hasegawa','Izaak Martinez']:
-        df_pitcher = df_pitcher.replace("Splitter","Changeup")
-
-    if pitcher_name == 'Anthony Eyanson':
-        df_pitcher = df_pitcher.replace("Changeup","Splitter")
-
-    if pitcher_name == 'Xavier Franco' or pitcher_name == 'Ethan Holt':
-        df_pitcher = df_pitcher.replace("Fastball","Sinker")
-
-    if pitcher_name in ['Cole Dale', 'Ryan Forcucci', "Zachary Ernisse"]:
-        df_pitcher = fix_typos(df_pitcher)
-
-    return df_pitcher

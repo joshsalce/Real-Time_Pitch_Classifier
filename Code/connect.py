@@ -1,9 +1,12 @@
 from requests.exceptions import ConnectionError
 from socketIO_client import SocketIO, LoggingNamespace
 import logging
-
 import time
-from model import build_classifier
+
+from model_helper import clean, combine_data, fix_typos, pair_pitcher_names#, get_pitcher_data
+from model import PitcherModel
+
+
 from socket_helper import check_storage, clean_socket_data, log_event
 from dotenv import load_dotenv
 import os
@@ -11,7 +14,6 @@ import os
 load_dotenv()
 
 # Logs everything with socket connection, receiving and emitting messages (commented out for clarity)
-
 #logging.getLogger('socketIO-client').setLevel(logging.DEBUG) 
 logging.basicConfig()
 
@@ -37,12 +39,11 @@ def main(name, local_socket):
             *args: Pitch data from Yakkertech cameras
         '''
         def receiver(*args):
-            # Cleans all incoming socket data instances for variables of interest (see socket helper functions)
+            # Cleans all incoming socket data for variables of interest (see socket helper functions)
             socket_data = clean_socket_data(args)
 
             '''
             Filtering Scheme, Checkpoint 1
-            --------------------------------------------------------------------------------
                 - Checks output from helper function, moves on to next data stream if None
             '''
             if type(socket_data) == type(None):
@@ -59,18 +60,15 @@ def main(name, local_socket):
                     
                     However, a single pitch will carry the same event id, with some exceptions.
                     
-                    (I hypothesize that balls in play have two different event ids, one for the pitch data ONLY, 
-                    and another for the same pitch data PLUS the hit data)
+                    (Hypothesis: Balls in play have two different event ids for pitch data ONLY and pitch data PLUS hit data)
                     
                     For most pitches, more than one instance of data will carry all variables of interest. Therefore,
-                    the goal of this checkpoint is to filter out only the first instance of these instances
+                    the goal of this checkpoint is to filter out only the FIRST instance of these instances
                     and ignore the rest.
                 '''
 
-                # Returns the event ID of the pitch, and checks a separate text file
-                # to see if it is already logged. If so, helper function returns None 
-                # and filtering scheme data ignore data
-
+                # Returns event ID of the pitch, checks separate text file to see if already logged. 
+                # If so, helper function returns None and data is ignored
                 eventID = args[0]['event_uuid']
                 data_arr = check_storage(socket_data, eventID)
 
@@ -83,12 +81,11 @@ def main(name, local_socket):
                     velo = str(round(data_arr[0][0], 1)) # rounded to 1 decimal point
                     spin_rate = str(int(round(data_arr[0][1],1))) # rounded to 0 decimal points
                 
-
                     # First: Predict value for scaled data using classifier
-                    prediction = dt_classifier.predict(data_arr)
+                    prediction = classifier.model.predict(data_arr)
 
                     # Next: Decode the value of prediction based off encoding
-                    classified_pitch = label_encoder.inverse_transform(prediction)[0]
+                    classified_pitch = classifier.lab_enc.inverse_transform(prediction)[0]
 
                     # Concatenates all input into a message that is written to front-end with Python client
                     pitch_text = classified_pitch + ' ' + velo + " MPH " + spin_rate + " RPM"
@@ -102,13 +99,28 @@ def main(name, local_socket):
 
                     return pitch_text
         
-        '''
-        Note: No arguments can be passed to socket function, must be initalized
-        as global variables
-        '''
-        global dt_classifier, label_encoder
-        # Builds model, LabelEncoder() and StandardScaler() objects returned as well tp use for prediction
-        dt_classifier, label_encoder = build_classifier(name)
+        
+
+        # Build dataframe from directory and pitcher names
+        directory = 'UCSD_Data/'
+        pitchers_23 = ['Izaak Martinez', 'Sam Hasegawa', 'Ryan Rissas', 'Spencer Seid',
+            'Zachary Ernisse','Chris Gilmartin','Joel Tornero','Cole Dale','Seth Sumner',
+            'Nolan Mccracken','Joseph Soberon','Donovan Chriss','Ryan Forcucci','Anthony Eyanson',
+            'Ethan Holt','Aren Alvarez','Niccolas Gregson','Michael Mitchell','Matthew Dalquist','Xavier Franco','Ryan Farmer']  
+
+        # Note: No arguments can be passed to socket function, must be initalized as global variables
+        global classifier, df
+
+        # Combine all pitch data before building individual pitcher model
+        df = combine_data(directory, pitchers_23)     
+
+        # Builds class containing trained model and label encoder to use for prediction
+        classifier = PitcherModel(name) # Instantiate class of Model for Pitcher
+        
+        classifier.get_pitcher_data(df) # Get pitcher data
+        classifier.encode() # Transform pitch labels
+        classifier.get_repetoire()
+        classifier.train_model() # Train model, return metrics
 
         # Sensitive Info
         url = os.getenv('URL') 
