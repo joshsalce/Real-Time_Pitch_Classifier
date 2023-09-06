@@ -34,25 +34,30 @@ def pair_pitcher_names(df, df_names, pitcher_names):
             
     return df
 
+
+'''
+Note: This sub-function isused to correct for any typos.
+'''
+def fix_typos(df):
+    ret_df = df.replace("Slider ","Slider")
+    ret_df = ret_df.replace("Sldier","Slider")
+
+    ret_df = ret_df.replace("Fastball ", "Fastball")
+    return ret_df
+
+
 '''
 Description: Cleans mass dataset using pandas package and one sub-function
 --------------------------------------------------------------------------------
 Inputs:
     concatted_csv: Mass dataset of csvs concatenated together
     pitcher_names: List of pitcher names (w/o errors)
+    var_list: List of strings representing variables to return in output dataframe
 
 Returns: Dataframe, cleaned with only variables of interest and no NA values
     Note: This dataframe will be used to create and fit our classifier on.
-
-Note: Our variables of interest for a classification model are:
-    - Velocity (yt_RelSpeed)
-    - Spin Rate (SpinRate)
-    - Spin Axis (SpinAxis)
-    - Induced Vertical Break (InducedVertBreak)
-    - Horizontal Break (HorzBreak)
-
 '''
-def clean(concatted_csv, pitcher_names):
+def clean(concatted_csv, pitcher_names, var_list):
     # Returns all unique values in "Pitcher" of mass dataset, inputs to sub-function
     input_names = concatted_csv['Pitcher'].unique()
     df = pair_pitcher_names(concatted_csv, input_names, pitcher_names)
@@ -61,11 +66,13 @@ def clean(concatted_csv, pitcher_names):
     df = df[df['Pitcher'].isin(pitcher_names)]
 
     # Drops NA values, returns only values of interest, drops any row with NA to include no NA values in dataset
-    df = df.dropna(subset=['Pitcher','TaggedPitchType','SpinRate'])
-    pitch_df = df[['Pitcher', 'TaggedPitchType', 'yt_RelSpeed', 'SpinRate', 'SpinAxis', 'InducedVertBreak', 'HorzBreak']]
-    pitch_df = pitch_df.dropna(axis=0, how='any')
+    df = df.dropna(subset=var_list)
+    df_filt = df[var_list]
+    pitch_df = df_filt.dropna(axis=0, how='any')
 
-    return pitch_df
+    ret_df = fix_typos(pitch_df)
+
+    return ret_df
 
 '''
 Description: Combines all separate csv files together to form a mass DataFrame
@@ -73,10 +80,11 @@ Description: Combines all separate csv files together to form a mass DataFrame
 Inputs:
     dir: local directory storing all csv files
     pitcher_names: names of all pitchers as appear in Yakkertech data
+    variables: List of strings for variables to return
 
 Returns: Dataframe
 '''
-def combine_data(dir, pitcher_names):
+def get_data(dir, pitcher_names, variables):
     csv_li = []
 
     # Loops through directory, adds all csv files to list 
@@ -89,17 +97,6 @@ def combine_data(dir, pitcher_names):
     big_csv = pd.concat(csv_li)
 
     # Cleans dataset using pitcher name correction sub-function
-    cleaned_df = clean(big_csv, pitcher_names)
+    cleaned_df = clean(big_csv, pitcher_names, variables)
 
     return cleaned_df
-
-
-'''
-Note: This sub-function isused to correct for any typos.
-'''
-def fix_typos(df):
-    ret_df = df.replace("Slider ","Slider")
-    ret_df = ret_df.replace("Sldier","Slider")
-
-    ret_df = ret_df.replace("Fastball ", "Fastball")
-    return ret_df

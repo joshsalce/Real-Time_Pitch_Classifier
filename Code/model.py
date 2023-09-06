@@ -54,8 +54,6 @@ class PitcherModel:
             df_pitcher = df_pitcher.replace("Changeup","Splitter")
         if self.pitcher == 'Xavier Franco' or self.pitcher == 'Ethan Holt':
             df_pitcher = df_pitcher.replace("Fastball","Sinker")
-        if self.pitcher in ['Cole Dale', 'Ryan Forcucci', "Zachary Ernisse"]:
-            df_pitcher = fix_typos(df_pitcher)
 
         # Sort into predictor variables (X) and output variable (y)
         self.x_df = df_pitcher.drop(['TaggedPitchType'], axis=1)

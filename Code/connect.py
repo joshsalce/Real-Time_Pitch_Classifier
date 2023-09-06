@@ -3,19 +3,21 @@ from socketIO_client import SocketIO, LoggingNamespace
 import logging
 import time
 
-from model_helper import clean, combine_data, fix_typos, pair_pitcher_names#, get_pitcher_data
+from model_helper import clean, get_data, fix_typos, pair_pitcher_names
 from model import PitcherModel
 
 
 from socket_helper import check_storage, clean_socket_data, log_event
 from dotenv import load_dotenv
 import os
+import json
 
 load_dotenv()
 
 # Logs everything with socket connection, receiving and emitting messages (commented out for clarity)
 #logging.getLogger('socketIO-client').setLevel(logging.DEBUG) 
 logging.basicConfig()
+
 
 '''
 The Magic
@@ -30,22 +32,31 @@ Inputs:
 '''
 def main(name, local_socket):
     try:
+        # Build dataframe from directory and pitcher names
+        directory = os.getenv('DATA_DIR')
+
+        pitchers_23 =  ["Izaak Martinez","Sam Hasegawa","Ryan Rissas","Spencer Seid","Zachary Ernisse",
+                        "Chris Gilmartin","Joel Tornero","Cole Dale","Seth Sumner","Nolan Mccracken",
+                        "Joseph Soberon","Donovan Chriss","Ryan Forcucci","Anthony Eyanson","Ethan Holt",
+                        "Aren Alvarez","Niccolas Gregson","Michael Mitchell","Matthew Dalquist",
+                        "Xavier Franco","Ryan Farmer"]
+
+        features = ["Pitcher","TaggedPitchType","yt_RelSpeed","SpinRate","SpinAxis","InducedVertBreak","HorzBreak"]
+
         '''
         Goal: Listen to real-time pitch data channel derived from Yakkertech cameras,
         filter all incoming data to predict on and write to front-end of application
         for each pitch. 
 
         Inputs: 
-            *args: Pitch data from Yakkertech cameras
+        *args: Pitch data from Yakkertech cameras
         '''
         def receiver(*args):
             # Cleans all incoming socket data for variables of interest (see socket helper functions)
             socket_data = clean_socket_data(args)
 
-            '''
-            Filtering Scheme, Checkpoint 1
-                - Checks output from helper function, moves on to next data stream if None
-            '''
+            #Filtering Scheme, Checkpoint 1
+            #    - Checks output from helper function, moves on to next data stream if None
             if type(socket_data) == type(None):
                 pass
             else:
@@ -53,17 +64,14 @@ def main(name, local_socket):
                 Filtering Scheme, Checkpoint 2 
                 --------------------------------------------------------------------------------
                     - For all outputs not None, the first output associated with a single pitch will be
-                    passed through, with all others being ignored.
+                    passed through, all others being ignored.
 
-                    - Note: This is used because a single pitch picked up by Yakkertech will go through several sets
-                    of calculations to add more data to each pitch. 
+                    Notes:
+                    - A single pitch picked up by Yakkertech will go through several iterations. 
+                    However, a single pitch will carry the same event id with some exceptions.
                     
-                    However, a single pitch will carry the same event id, with some exceptions.
-                    
-                    (Hypothesis: Balls in play have two different event ids for pitch data ONLY and pitch data PLUS hit data)
-                    
-                    For most pitches, more than one instance of data will carry all variables of interest. Therefore,
-                    the goal of this checkpoint is to filter out only the FIRST instance of these instances
+                    - For most pitches, more than one version of a single data point will carry all variables of interest. 
+                    Therefore,the goal is to filter out only the FIRST instance of these instances
                     and ignore the rest.
                 '''
 
@@ -98,21 +106,12 @@ def main(name, local_socket):
                     local_socket.emit('message','')
 
                     return pitch_text
-        
-        
-
-        # Build dataframe from directory and pitcher names
-        directory = 'UCSD_Data/'
-        pitchers_23 = ['Izaak Martinez', 'Sam Hasegawa', 'Ryan Rissas', 'Spencer Seid',
-            'Zachary Ernisse','Chris Gilmartin','Joel Tornero','Cole Dale','Seth Sumner',
-            'Nolan Mccracken','Joseph Soberon','Donovan Chriss','Ryan Forcucci','Anthony Eyanson',
-            'Ethan Holt','Aren Alvarez','Niccolas Gregson','Michael Mitchell','Matthew Dalquist','Xavier Franco','Ryan Farmer']  
 
         # Note: No arguments can be passed to socket function, must be initalized as global variables
         global classifier, df
 
-        # Combine all pitch data before building individual pitcher model
-        df = combine_data(directory, pitchers_23)     
+        # Combine, clean all pitch data before building individual pitcher model
+        df = get_data(directory, pitchers_23, features)     
 
         # Builds class containing trained model and label encoder to use for prediction
         classifier = PitcherModel(name) # Instantiate class of Model for Pitcher
