@@ -1,10 +1,10 @@
 # UCSD Baseball 2023 Pitch Classifier
 
 ## Description
-This is a locally run web-application that can classify pitches in real-time based on which pitcher is in a game. Using the socket.io package in JavaScript, a pitcher can be selected from a dropdown-menu. After pressing "Start," an sklearn model is built on the pitcher's Yakkertech pitch data, and a  Python connection to the Yakkertech cameras is established using the socketIO-client pacakge that is continuously parsed to read and predict on incoming pitch data. Each prediction is written from a Python localhost client to the front-end HTML page in the style that an MLB stadium shows pitch data. "Pausing" the application will termiante the socket.io server, with the Python client still running. A working demo of this applciation can be found [here.](https://youtu.be/TTDHuMp5X2I) 
+This is a locally run web-application that can classify pitches in real-time based on which pitcher is in a game. Using the socket.io package in JavaScript, a pitcher can be selected from a dropdown-menu. After pressing "Start," an sklearn model is built on the pitcher's Yakkertech pitch data, and a Python connection to the Yakkertech cameras is established using the socketIO-client package. Incoming pitch data is then continuously parsed and predicted on. Each prediction is written from a Python localhost client to the front-end HTML page in the style of an MLB stadium showing pitch data. "Pausing" the application will terminate the socket.io server but keep the Python client running. A working demo of this application can be found [here.](https://youtu.be/TTDHuMp5X2I) 
 
 ### Motivation
-The spark for this project came during my first days interning with the UCSD Baseball Team. While tagging scrimmages initally, I found myself making some errors based on unfamiliarity with each pitcher's unique pitch characteristics (i.e. differences in spin rates for fastballs and sinkers, vertical and horizontal break for LHP curveballs and sliders). At the same time, I had been introduced to the Python package sklearn in my academic work. My inital project with sklearn came with building a pitch classifier using MLB pitch data, which can be found [here.](https://github.com/joshsalce/Pitch-Classifier-MLB-2022) This project aims to increase my familiarity with sklearn and build a tool that can correct for inital tagging errors.
+The spark for this project came during my first days interning with the UCSD Baseball Team. While tagging scrimmages initally, I found myself making some errors based on unfamiliarity with each pitcher's unique pitch characteristics (i.e. differences in spin rates for fastballs and sinkers, vertical and horizontal break for LHP curveballs and sliders). At the same time, I had been introduced to the Python package sklearn in my academics. This project aims to increase my familiarity with sklearn and build a tool that can correct for initial tagging errors.
 
 
 ### Packages and Tech Used
@@ -19,7 +19,7 @@ The spark for this project came during my first days interning with the UCSD Bas
 | Component | Description |
 |-------|---------------------------------------------------------------------------------------------------------------------------------------------------|
 | [File Schematic](https://github.com/joshsalce/Real-Time_Pitch_Classifier/blob/main/File_Schematic.pdf)| Layout of file organization and relationships | 
-| [Code](https://github.com/joshsalce/Real-Time_Pitch_Classifier/tree/main/Code) | Code section including all coding files except for datasets, node, venv, and Python server files |
+| [Code](https://github.com/joshsalce/Real-Time_Pitch_Classifier/tree/main/Code) | Code section including all coding files except for datasets, node, .env, and Python server files |
 | [Miscellaneous](https://github.com/joshsalce/Real-Time_Pitch_Classifier/tree/main/Misc.) | Miscellaneous section including diagrams documenting thought process of project, proof of concepts, and test scripts|
 
 
