@@ -1,0 +1,1 @@
+Used to save eventID's for individual pitches, and for checking if file contains a particular eventID while reading incoming pitch data
